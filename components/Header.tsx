@@ -40,7 +40,7 @@ const Header = () => {
                   <RiLoginCircleFill className='h-[25px] w-[25px]' />
                   <div className='ml-2 text-[14px]'>Log In</div>
                 </Link>
-                <Link href={'/'} className='flex items-center text-[#333333db] font-[600] hover:text-[#2874f0] hover:bg-[#F2F2F2] w-full border-b border-solid border-[#ccc] p-[5px]'>
+                <Link href={'/signup'} className='flex items-center text-[#333333db] font-[600] hover:text-[#2874f0] hover:bg-[#F2F2F2] w-full border-b border-solid border-[#ccc] p-[5px]'>
                   <FaRegistered className='h-[25px] w-[25px]' />
                   <div className='ml-2 text-[14px]'>Sign Up</div>
                 </Link>
