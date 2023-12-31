@@ -83,11 +83,10 @@ function page() {
                     <FormControl className='mt-3'>
                         <InputLabel htmlFor="signup-repassword">Re Enter Password</InputLabel>
                         <OutlinedInput
-                        {...register("reEnterPassword",{required:true,validate:(data)=>{
-                            let previousPassword = new String(watch().password);
-                            console.log("previoud=",previousPassword)
-                            if(previousPassword!==data){
-                                return "PassWord Does Not Match"
+                        {...register("reEnterPassword",{required:true,validate:(data)=>{  
+                            if(watch().password!==data){
+                                console.log("true ,",data)
+                                return "Password Does not match"
                             }
                             return true;   
                         }})}
