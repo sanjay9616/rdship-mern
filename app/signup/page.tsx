@@ -1,50 +1,98 @@
 "use client"
 import { Button, FormControl, InputLabel, OutlinedInput, TextField } from '@mui/material'
+import axios from 'axios'
+
 
 import React, { useState } from 'react'
 
-type signUpRequest = {
+type SignUpRequest = {
     email: {
-        value:string,
-        error:string
+        value: string,
+        error: string
     },
     mobile: {
-        value:string,
-        error:string
+        value: string,
+        error: string
     },
     password: {
-        value:string,
-        error:string
+        value: string,
+        error: string
+    }
+    reEnterPassword: {
+        value: string,
+        error: string
     }
 }
 function page() {
-    const [signUpForm, setSignUpForm] = useState<signUpRequest>({
+    const [signUpForm, setSignUpForm] = useState<SignUpRequest>({
         email: {
             value: '',
-            error:''
+            error: ''
         },
         mobile: {
             value: '',
-            error:''
+            error: ''
         },
         password: {
             value: '',
-            error:''
+            error: ''
+        },
+        reEnterPassword: {
+            value: '',
+            error: ''
         }
     });
 
     const onInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setSignUpForm((prevForm) => ({
-          ...prevForm,
-          [name]: {
-            ...prevForm[name as keyof signUpRequest ],
-            value: value,
-          },
+            ...prevForm,
+            [name]: {
+                ...prevForm[name as keyof SignUpRequest],
+                value: value,
+            },
         }));
     }
-    const onSubmit = ()=>{
+    const onSubmit = () => {
         console.log(signUpForm)
+        signUpCallApi(signUpForm);
+
+    }
+    // function to validate input
+    const validateInput = ()=>{
+        const {email,mobile,password,reEnterPassword} = signUpForm;
+        let isValid = true;
+        // for email
+        if(email.value==undefined || email.value==null){
+           isValid = false
+        }
+        // for mobile
+        let isNotNumber:string = mobile.value;
+        if(mobile.value==undefined || mobile.value=='' || "NaN"===isNotNumber){
+            isValid = false;
+        }
+        // for passWord
+        if(password.value==undefined || password.value=='' || password.value.length<8 ){
+            isValid = false;
+        }
+        if(password.value!=reEnterPassword.value){
+            isValid = false;
+        }
+        return isValid;
+  
+    }
+    // function to call Api For SignUp
+    const signUpCallApi = async (request: SignUpRequest) => {
+        let payload = { email: request.email.value, mobileNo: request.mobile.value, password: request.password.value };
+        let url = "";
+        try {
+            console.log("payload=", payload)
+            let response = await axios.post(url, payload);
+            console.log(response)
+        }
+        catch (err) {
+            console.error(err);
+        }
     }
     return (
         <section className="flex flex-col items-center justify-center bg-white  w-full ">
@@ -61,13 +109,13 @@ function page() {
                     </FormControl>
                     <FormControl>
                         <InputLabel htmlFor="signup-mobile">Enter Mobile</InputLabel>
-                        <OutlinedInput 
-                             id="signup-mobile" 
-                             onChange={onInputHandler}
-                             value={signUpForm.mobile.value}
-                             name="mobile"
-                             type="text"
-                              label="Enter Mobile">
+                        <OutlinedInput
+                            id="signup-mobile"
+                            onChange={onInputHandler}
+                            value={signUpForm.mobile.value}
+                            name="mobile"
+                            type="text"
+                            label="Enter Mobile">
 
                         </OutlinedInput>
                     </FormControl>
@@ -76,41 +124,32 @@ function page() {
                 <div className='flex flex-col mt-2'>
                     <FormControl variant="outlined">
                         <InputLabel htmlFor="signup-password" >Enter Password</InputLabel>
-                        <OutlinedInput id="signup-password" name='email' type='text' label="Enter Password"></OutlinedInput>
+                        <OutlinedInput
+                         id="signup-password" 
+                         name='password' 
+                         value={signUpForm.password.value}
+                         onChange={onInputHandler}
+                         type='text' 
+                         label="Enter Password"></OutlinedInput>
                     </FormControl>
                     <FormControl className='mt-3'>
-                        <InputLabel htmlFor="signup-password">Re Enter Password</InputLabel>
-                        <OutlinedInput id="signup-password" name="mobile" type="text" label="Re Enter Password"
+                        <InputLabel htmlFor="signup-repassword">Re Enter Password</InputLabel>
+                        <OutlinedInput
+                         id="signup-repassword" 
+                         name="reEnterPassword"
+                         type="text"
+                         value={signUpForm.reEnterPassword.value}
+                         onChange={onInputHandler}
+                         label="Re Enter Password"
                         ></OutlinedInput>
 
                     </FormControl>
                     <FormControl className='mt-2'>
                         <Button onClick={onSubmit} style={{ backgroundColor: 'blue', color: 'white' }} variant='contained'>Sign Up</Button>
                     </FormControl>
-
                 </div>
             </div>
-
-
         </section>
-
-
-
-
-        // <section className='flex items-center justify-center mt-2 w-full bg-white-100'>
-        //     <div className='w-[40%] bg-white border border-solid border-[#ccc] shadow-[0_3px_6px_rgb(0_0_0_/_16%)] rounded-[5px]'>
-        //     <h3>SignUp</h3>
-        //         <div className='mt-8 grid grid-cols-2 gap-2'>
-        //             <TextField className='input' name="email" value={signUpForm.email} onChange={onInputHandler} id="outlined-basic" label="Enter Email" variant="outlined" />
-        //             <TextField className='input' name="mobile" value={signUpForm.mobile} onChange={onInputHandler} id="outlined-basic" label="Enter Mobile Number" variant="outlined" />
-        //         </div>
-        //         <div className='m-8 flex flex-col justify-center'>
-        //             <TextField className='input' name="password" value={signUpForm.password} onChange={onInputHandler} id="outlined-basic" type='password' label="Enter Password" variant="outlined" />
-        //             <TextField className='input mt-4' id="outlined-basic" type='password' label="Re enter Password" variant="outlined" />
-        //         </div>
-        //     </div>
-
-        // </section>
     )
 }
 
