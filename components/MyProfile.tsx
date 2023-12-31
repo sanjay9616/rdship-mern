@@ -36,8 +36,8 @@ const MyProfile = () => {
           <FormControl sx={{ mt: 1, width: '100%' }} variant="outlined">
             <InputLabel>Your Gender</InputLabel>
             <Select label="Your Gender">
-              <MenuItem value={'Male'}>Male</MenuItem>
-              <MenuItem value={'Female'}>Female</MenuItem>
+              <MenuItem value='Male'>Male</MenuItem>
+              <MenuItem value='Female'>Female</MenuItem>
             </Select>
             <FormHelperText>{false ? 'Full Name Is Required' : ''}</FormHelperText>
           </FormControl>
