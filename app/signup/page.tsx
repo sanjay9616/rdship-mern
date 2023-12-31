@@ -1,5 +1,5 @@
 "use client"
-import { Button, FormControl, InputLabel, OutlinedInput, TextField } from '@mui/material'
+import { Button, FormControl, FormHelperText, InputLabel, OutlinedInput, TextField } from '@mui/material'
 import axios from 'axios'
 
 
@@ -24,6 +24,7 @@ type SignUpRequest = {
     }
 }
 function page() {
+    const [error, setError] = useState(false);
     const [signUpForm, setSignUpForm] = useState<SignUpRequest>({
         email: {
             value: '',
@@ -60,29 +61,43 @@ function page() {
     }
     // function to validate input
     const validateInput = ()=>{
-        const {email,mobile,password,reEnterPassword} = signUpForm;
+        signUpForm.email.error = ''
+        signUpForm.mobile.error = ''
+        signUpForm.password.error = '';
+        signUpForm.reEnterPassword.error = '';
+
         let isValid = true;
         // for email
-        if(email.value==undefined || email.value==null){
+        if(signUpForm.email.value==undefined || signUpForm.email.value==''){
            isValid = false
+           signUpForm.email.error = "Email is Required"
         }
         // for mobile
-        let isNotNumber:string = mobile.value;
-        if(mobile.value==undefined || mobile.value=='' || "NaN"===isNotNumber){
+        let isNotNumber:string = signUpForm.mobile.value;
+        if(signUpForm.mobile.value==undefined || signUpForm.mobile.value=='' || "NaN"===isNotNumber){
             isValid = false;
+            signUpForm.mobile.error = "Mobile Number cannot Be Empty"
         }
         // for passWord
-        if(password.value==undefined || password.value=='' || password.value.length<8 ){
+        if(signUpForm.password.value==undefined || signUpForm.password.value=='' || signUpForm.password.value.length<8 ){
             isValid = false;
+            signUpForm.password.error = "Password is Required and Greater than 8 Character";
         }
-        if(password.value!=reEnterPassword.value){
+        if(signUpForm.password.value!=signUpForm.reEnterPassword.value){
             isValid = false;
+            signUpForm.reEnterPassword.error = "Password is not Matched";
         }
         return isValid;
   
     }
     // function to call Api For SignUp
     const signUpCallApi = async (request: SignUpRequest) => {
+        // if input is Not Valid don't Proceed further and refresh Component
+        if(!validateInput()){
+          console.log("invalidate in-put")
+          setError(true)  
+          return;
+        }
         let payload = { email: request.email.value, mobileNo: request.mobile.value, password: request.password.value };
         let url = "";
         try {
@@ -106,6 +121,7 @@ function page() {
                     <FormControl variant="outlined">
                         <InputLabel htmlFor="signup-email" >Enter Email</InputLabel>
                         <OutlinedInput id="signup-email" onChange={onInputHandler} value={signUpForm.email.value} name='email' type='text' label="Enter Email"></OutlinedInput>
+                        <FormHelperText sx={{color:'red'}}>{true ? signUpForm.email.error : ''}</FormHelperText>
                     </FormControl>
                     <FormControl>
                         <InputLabel htmlFor="signup-mobile">Enter Mobile</InputLabel>
@@ -116,8 +132,8 @@ function page() {
                             name="mobile"
                             type="text"
                             label="Enter Mobile">
-
                         </OutlinedInput>
+                        <FormHelperText sx={{color:'red'}}>{true ? signUpForm.mobile.error : ''}</FormHelperText>
                     </FormControl>
                 </div>
                 {/*  Input for password and Recorrect-password */}
@@ -131,6 +147,8 @@ function page() {
                          onChange={onInputHandler}
                          type='text' 
                          label="Enter Password"></OutlinedInput>
+                        <FormHelperText sx={{color:'red'}}>{true ? signUpForm.password.error : ''}</FormHelperText>
+
                     </FormControl>
                     <FormControl className='mt-3'>
                         <InputLabel htmlFor="signup-repassword">Re Enter Password</InputLabel>
@@ -142,7 +160,7 @@ function page() {
                          onChange={onInputHandler}
                          label="Re Enter Password"
                         ></OutlinedInput>
-
+                        <FormHelperText sx={{color:'red'}}>{true ? signUpForm.reEnterPassword.error : ''}</FormHelperText>
                     </FormControl>
                     <FormControl className='mt-2'>
                         <Button onClick={onSubmit} style={{ backgroundColor: 'blue', color: 'white' }} variant='contained'>Sign Up</Button>
