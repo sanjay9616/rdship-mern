@@ -5,6 +5,14 @@ import { CiSearch } from "react-icons/ci";
 import { MdAccountCircle } from "react-icons/md";
 import { HiShoppingCart } from "react-icons/hi";
 import { useRouter } from 'next/navigation';
+import Fab from '@mui/material/Fab';
+import Badge from '@mui/material/Badge';
+import Link from 'next/link';
+import { RiLoginCircleFill } from "react-icons/ri";
+import { RiLogoutCircleFill } from "react-icons/ri";
+import { FaRegistered } from "react-icons/fa";
+
+
 
 const Header = () => {
   const router = useRouter()
@@ -14,24 +22,45 @@ const Header = () => {
   return (
     <section className="sticky top-0 w-full z-50 bg-white shadow-xl">
       <div className='flex flex-row items-center bg-white pl-4 pt-2 pr-4'>
-        <button type='button'>Logo</button>
+        <Link href={'/'}>Logo</Link>
         <div className='flex flex-row items-center justify-between w-1/3 border h-8 rounded ml-32'>
-          <input type="text" className='focus:outline-none focus:ring-0 focus:border-searchBorder h-full w-full rounded-l pl-2 pr-2 text-[14px]'/>
+          <input type="text" className='focus:outline-none focus:ring-0 focus:border-searchBorder h-full w-full rounded-l pl-2 pr-2 text-[14px]' />
           <button type='button' className='pl-4 pr-4 text-lg bg-[#b81410] text-white font-medium h-full rounded-r'>
             <CiSearch className='font-medium rounded-r' />
           </button>
         </div>
         <div className='ml-auto mr-4 flex items-center'>
           <span className='mr-2 text-[#2874f0] font-medium'>Sanjay</span>
-          <button onClick={() => logOut()} type='button' className='h-8 w-8 flex items-center justify-center text-3xl rounded-full bg-[#F2F2F2] text-[#2874f0] shadow-[rgba(0,_0,_0,_16%)_0px_3px_6px] focus:outline-none focus:ring-0'>
-            <MdAccountCircle />
-          </button>
+          <Fab className='text-[#2874f0] bg-[#F2F2F2] h-[35px] w-[35px] group relative'>
+            <MdAccountCircle className='w-full h-full' />
+            <div className='hidden group-hover:block absolute top-[35px] shadow-[0_3px_6px_rgb(0_0_0_/_16%)]'>
+              <div className='bg-white flex flex-col items-start w-[140px] border border-solid border-[#ccc]'>
+                <Link href={'/account/my-profile'} className='flex items-center text-[#333333db] font-[600] hover:text-[#2874f0] hover:bg-[#F2F2F2] w-full border-b border-solid border-[#ccc] p-[5px]'>
+                  <MdAccountCircle className='h-[25px] w-[25px]' />
+                  <div className='ml-2 text-[14px]'>My Profile</div>
+                </Link>
+                <Link href={'/login'} className='flex items-center text-[#333333db] font-[600] hover:text-[#2874f0] hover:bg-[#F2F2F2] w-full border-b border-solid border-[#ccc] p-[5px]'>
+                  <RiLogoutCircleFill className='h-[25px] w-[25px]' />
+                  <div className='ml-2 text-[14px]'>Log Out</div>
+                </Link>
+                <Link href={'/login'} className='flex items-center text-[#333333db] font-[600] hover:text-[#2874f0] hover:bg-[#F2F2F2] w-full border-b border-solid border-[#ccc] p-[5px]'>
+                  <RiLoginCircleFill className='h-[25px] w-[25px]' />
+                  <div className='ml-2 text-[14px]'>Log In</div>
+                </Link>
+                <Link href={'/signup'} className='flex items-center text-[#333333db] font-[600] hover:text-[#2874f0] hover:bg-[#F2F2F2] w-full border-b border-solid border-[#ccc] p-[5px]'>
+                  <FaRegistered className='h-[25px] w-[25px]' />
+                  <div className='ml-2 text-[14px]'>Sign Up</div>
+                </Link>
+              </div>
+            </div>
+          </Fab>
         </div>
         <div className='flex'>
-          <span className='relative left-14 bg-[#b81410] h-5 w-5 rounded-full flex items-center justify-center text-white text-xs font-medium z-10'>3</span>
-          <button type='button' className='flex items-center justify-center h-11 w-11 text-2xl rounded-full bg-[#F2F2F2] text-[#2874f0] shadow-[rgba(0,_0,_0,_16%)_0px_3px_6px] focus:outline-none focus:ring-0'>
-            <HiShoppingCart />
-          </button>
+          <Badge badgeContent={4} color="error" overlap="circular" className=''>
+            <Fab className='text-[#2874f0] bg-[#F2F2F2] h-[45px] w-[45px] z-0'>
+              <HiShoppingCart className='w-[60%] h-[60%]' />
+            </Fab>
+          </Badge>
         </div>
       </div>
       <div className='flex flex-row items-center justify-around pl-4 pr-4 mt-2 bg-[#F2F2F2]'>

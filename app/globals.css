@@ -1,6 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -105,3 +105,18 @@ body {
   min-height: 20px;
   max-height: 20px;
 }
+
+/* ---------------------------------------------------------------  Input Filed CSS End Here ------------------------------------------------------------*/
+
+
+/* ---------------------------------------------------------------  Material Table CSS Start Here ------------------------------------------------------------*/
+.css-1yhpg23-MuiTableCell-root {
+  padding: 5px;
+}
+
+.MuiTableCell-head {
+  background-color: #E5E5E5;
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------------  Material Table CSS Start Here ------------------------------------------------------------*/
