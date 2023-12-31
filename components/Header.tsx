@@ -1,9 +1,16 @@
-import React from 'react'
+"use client";
+
+import React, { useState } from 'react'
 import { CiSearch } from "react-icons/ci";
 import { MdAccountCircle } from "react-icons/md";
 import { HiShoppingCart } from "react-icons/hi";
+import { useRouter } from 'next/navigation';
 
 const Header = () => {
+  const router = useRouter()
+  const logOut = () => {
+    router.push('/login')
+  }
   return (
     <section className="sticky top-0 w-full z-50 bg-white shadow-xl">
       <div className='flex flex-row items-center bg-white pl-4 pt-2 pr-4'>
@@ -16,7 +23,7 @@ const Header = () => {
         </div>
         <div className='ml-auto mr-4 flex items-center'>
           <span className='mr-2 text-[#2874f0] font-medium'>Sanjay</span>
-          <button type='button' className='h-8 w-8 flex items-center justify-center text-3xl rounded-full bg-[#F2F2F2] text-[#2874f0] shadow-[rgba(0,_0,_0,_16%)_0px_3px_6px] focus:outline-none focus:ring-0'>
+          <button onClick={() => logOut()} type='button' className='h-8 w-8 flex items-center justify-center text-3xl rounded-full bg-[#F2F2F2] text-[#2874f0] shadow-[rgba(0,_0,_0,_16%)_0px_3px_6px] focus:outline-none focus:ring-0'>
             <MdAccountCircle />
           </button>
         </div>
