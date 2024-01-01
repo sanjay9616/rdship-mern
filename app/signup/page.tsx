@@ -1,89 +1,29 @@
 "use client"
-import { Button, FormControl, InputLabel, OutlinedInput, TextField } from '@mui/material'
+import { Button, FormControl, FormHelperText, InputLabel, OutlinedInput, TextField } from '@mui/material'
 import axios from 'axios'
-
-
+import { useForm, SubmitHandler } from 'react-hook-form'
 import React, { useState } from 'react'
 
-type SignUpRequest = {
-    email: {
-        value: string,
-        error: string
-    },
-    mobile: {
-        value: string,
-        error: string
-    },
-    password: {
-        value: string,
-        error: string
-    }
-    reEnterPassword: {
-        value: string,
-        error: string
-    }
+
+interface form {
+    email: string,
+    mobile: string,
+    password: string,
+    reEnterPassword: string
 }
 function page() {
-    const [signUpForm, setSignUpForm] = useState<SignUpRequest>({
-        email: {
-            value: '',
-            error: ''
-        },
-        mobile: {
-            value: '',
-            error: ''
-        },
-        password: {
-            value: '',
-            error: ''
-        },
-        reEnterPassword: {
-            value: '',
-            error: ''
-        }
-    });
+    const { register, handleSubmit, watch, formState: { errors } } = useForm<form>()
 
-    const onInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setSignUpForm((prevForm) => ({
-            ...prevForm,
-            [name]: {
-                ...prevForm[name as keyof SignUpRequest],
-                value: value,
-            },
-        }));
+    const SubmitHandler = (data: any) => {
+        console.log(data)
+        signUpCallApi(data)
     }
-    const onSubmit = () => {
-        console.log(signUpForm)
-        signUpCallApi(signUpForm);
 
-    }
-    // function to validate input
-    const validateInput = () => {
-        const { email, mobile, password, reEnterPassword } = signUpForm;
-        let isValid = true;
-        // for email
-        if (email.value == undefined || email.value == null) {
-            isValid = false
-        }
-        // for mobile
-        let isNotNumber: string = mobile.value;
-        if (mobile.value == undefined || mobile.value == '' || "NaN" === isNotNumber) {
-            isValid = false;
-        }
-        // for passWord
-        if (password.value == undefined || password.value == '' || password.value.length < 8) {
-            isValid = false;
-        }
-        if (password.value != reEnterPassword.value) {
-            isValid = false;
-        }
-        return isValid;
-
-    }
     // function to call Api For SignUp
-    const signUpCallApi = async (request: SignUpRequest) => {
-        let payload = { email: request.email.value, mobileNo: request.mobile.value, password: request.password.value };
+    const signUpCallApi = async (request: form) => {
+        // if input is Not Valid don't Proceed further and refresh Component
+
+        let payload = { email: request.email, mobileNo: request.mobile, password: request.password };
         let url = "";
         try {
             console.log("payload=", payload)
@@ -94,6 +34,8 @@ function page() {
             console.error(err);
         }
     }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     return (
         <section className="flex flex-col items-center justify-center bg-white w-full ">
             <div className='mt-4 pb-2 bg-white'>
@@ -105,11 +47,26 @@ function page() {
                 <div className='flex flex-row mt-2'>
                     <FormControl variant="outlined">
                         <InputLabel htmlFor="signup-email" >Enter Email</InputLabel>
-                        <OutlinedInput id="signup-email" onChange={onInputHandler} value={signUpForm.email.value} name='email' type='text' label="Enter Email"></OutlinedInput>
+                        <OutlinedInput {...register("email", {
+                            required: "Email Should be Required",
+                            pattern: { value: emailRegex, message: "Invalid Email Format" }
+                        })}
+                            id="signup-email"
+                            name='email'
+                            type='text'
+                            label="Enter Email"></OutlinedInput>
+                        <FormHelperText sx={{ color: 'red' }}>{errors.email ? errors.email.message : null}</FormHelperText>
                     </FormControl>
                     <FormControl>
                         <InputLabel htmlFor="signup-mobile">Enter Mobile</InputLabel>
-                        <OutlinedInput id="signup-mobile" onChange={onInputHandler} value={signUpForm.mobile.value} name="mobile" type="text" label="Enter Mobile"></OutlinedInput>
+                        <OutlinedInput
+                            {...register("mobile", { required: "Mobile Number is Required", pattern: { value: /^\d+$/, message: "Mobile Number Should contain only numeric value" } })}
+                            id="signup-mobile"
+                            name="mobile"
+                            type="text"
+                            label="Enter Mobile">
+                        </OutlinedInput>
+                        <FormHelperText sx={{ color: 'red' }}>{errors.mobile ? errors.mobile?.message : ''}</FormHelperText>
                     </FormControl>
                 </div>
                 {/*  Input for password and Recorrect-password */}
@@ -117,27 +74,35 @@ function page() {
                     <FormControl variant="outlined">
                         <InputLabel htmlFor="signup-password" >Enter Password</InputLabel>
                         <OutlinedInput
+                            {...register("password", { required: "Password is Required", })}
                             id="signup-password"
                             name='password'
-                            value={signUpForm.password.value}
-                            onChange={onInputHandler}
                             type='text'
                             label="Enter Password"></OutlinedInput>
+                        <FormHelperText sx={{ color: 'red' }}>{errors.password ? errors.password.message : ''}</FormHelperText>
+
                     </FormControl>
                     <FormControl className='mt-3'>
                         <InputLabel htmlFor="signup-repassword">Re Enter Password</InputLabel>
                         <OutlinedInput
+                            {...register("reEnterPassword", {
+                                required: true, validate: (data) => {
+                                    if (watch().password !== data) {
+                                        console.log("true ,", data)
+                                        return "Password Does not match"
+                                    }
+                                    return true;
+                                }
+                            })}
                             id="signup-repassword"
                             name="reEnterPassword"
                             type="text"
-                            value={signUpForm.reEnterPassword.value}
-                            onChange={onInputHandler}
                             label="Re Enter Password"
                         ></OutlinedInput>
-
+                        <FormHelperText sx={{ color: 'red' }}>{errors.reEnterPassword ? errors.reEnterPassword.message : ''}</FormHelperText>
                     </FormControl>
                     <FormControl className='mt-2'>
-                        <Button onClick={onSubmit} style={{ backgroundColor: 'blue', color: 'white' }} variant='contained'>Sign Up</Button>
+                        <Button onClick={handleSubmit(SubmitHandler)} style={{ backgroundColor: 'blue', color: 'white' }} variant='contained'>Sign Up</Button>
                     </FormControl>
                 </div>
             </div>
