@@ -48,13 +48,13 @@ const Header = () => {
             </div>
           </Fab>
         </div>
-        <div className='flex'>
+        <Link href={'/view-cart'} className='flex'>
           <Badge badgeContent={4} color="error" overlap="circular" className=''>
             <Fab className='text-[#2874f0] bg-[#F2F2F2] h-[45px] w-[45px] z-0'>
               <HiShoppingCart className='w-[60%] h-[60%]' />
             </Fab>
           </Badge>
-        </div>
+        </Link>
       </div>
       <div className='flex flex-row items-center justify-around pl-4 pr-4 mt-2 bg-[#F2F2F2]'>
         <button type='button'>Grocery</button>
