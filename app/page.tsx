@@ -2,16 +2,19 @@
 import Category from '@/components/Category'
 import Item from '@/components/Item'
 import React from 'react'
+import Slider from './slider/Slider'
 
 const Home = () => {
   return (
     <section>
+      <Slider/>
       <div className='bg-white'>
         <div className='flex items-center justify-center p-4 border-t border-b border-solid border-[#F2F2F2]'>
           <div className='text-[#2874f0] font-[600] text-[22px] leading-[30px] tracking-[.5px]'>
             OUR CATEGORIES
           </div>
         </div>
+        
         <div className='flex p-[1rem] scrollbar'>
           <Category />
           <Category />
