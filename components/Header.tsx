@@ -1,7 +1,10 @@
-import React, { lazy } from 'react'
+"use client";
+
+import React, { useState } from 'react'
 import { CiSearch } from "react-icons/ci";
 import { MdAccountCircle } from "react-icons/md";
 import { HiShoppingCart } from "react-icons/hi";
+import { useRouter } from 'next/navigation';
 import Fab from '@mui/material/Fab';
 import Badge from '@mui/material/Badge';
 import Link from 'next/link';
@@ -12,6 +15,7 @@ import { FaRegistered } from "react-icons/fa";
 
 
 const Header = () => {
+  const router = useRouter()
   return (
     <section className="sticky top-0 w-full z-50 bg-white shadow-xl">
       <div className='flex flex-row items-center bg-white pl-4 pt-2 pr-4'>
@@ -32,11 +36,11 @@ const Header = () => {
                   <MdAccountCircle className='h-[25px] w-[25px]' />
                   <div className='ml-2 text-[14px]'>My Profile</div>
                 </Link>
-                <Link href={'/'} className='flex items-center text-[#333333db] font-[600] hover:text-[#2874f0] hover:bg-[#F2F2F2] w-full border-b border-solid border-[#ccc] p-[5px]'>
-                  <RiLogoutCircleFill className='h-[25px] w-[25px]' />
-                  <div className='ml-2 text-[14px]'>Log Out</div>
-                </Link>
                 <Link href={'/login'} className='flex items-center text-[#333333db] font-[600] hover:text-[#2874f0] hover:bg-[#F2F2F2] w-full border-b border-solid border-[#ccc] p-[5px]'>
+                  <RiLogoutCircleFill className='h-[25px] w-[25px]' />
+                  <div className='ml-2 text-[14px]' >Log Out</div>
+                </Link>
+                <Link href={'/'} className='flex items-center text-[#333333db] font-[600] hover:text-[#2874f0] hover:bg-[#F2F2F2] w-full border-b border-solid border-[#ccc] p-[5px]'>
                   <RiLoginCircleFill className='h-[25px] w-[25px]' />
                   <div className='ml-2 text-[14px]'>Log In</div>
                 </Link>
