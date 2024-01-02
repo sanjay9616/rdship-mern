@@ -7,11 +7,11 @@ import Header from '@/components/Header'
 
 const forgetPassword = () => {
     const router = useRouter();
-    const [isPasswordVisible, setPasswordShow]= useState(false);
+    const [isPasswordVisible, setPasswordShow] = useState(false);
     function goToLoginPage() {
         router.push('/login');
     }
-    function showPassword(value : boolean){
+    function showPassword(value: boolean) {
         setPasswordShow(value);
     }
     return (
@@ -20,8 +20,13 @@ const forgetPassword = () => {
                 <div className='m-8 flex flex-col justify-center'>
                     <div className='font-[600]'>Reset Password</div>
                     <FormControl sx={{ mt: 2, width: '100%' }} variant="outlined">
+                        <InputLabel>Email</InputLabel>
+                        <OutlinedInput type='text' label="Email" />
+                        <FormHelperText>{false ? 'Email Is Required' : ''}</FormHelperText>
+                    </FormControl>
+                    <FormControl sx={{ mt: 2, width: '100%' }} variant="outlined">
                         <InputLabel>Password</InputLabel>
-                        <OutlinedInput type='text' label="pasword"/>
+                        <OutlinedInput type='text' label="pasword" />
                         <FormHelperText>{false ? 'Password Is Required' : ''}</FormHelperText>
                     </FormControl>
                     <FormControl sx={{ mt: 1, width: '100%' }} variant="outlined">
@@ -37,7 +42,9 @@ const forgetPassword = () => {
                         />
                         <FormHelperText>{false ? 'Password Is Required' : ''}</FormHelperText>
                     </FormControl>
-                    <div className='flex ml-auto mt-0 cursor-pointer text-[blue]' onClick={() => goToLoginPage()}>Already know password? please login</div>
+                    <div className='signInLabel'>
+                        <span>Already have account?</span><span className="signIn" onClick={() => goToLoginPage()}> Sign In</span>
+                    </div>
                     <button type='button' className='text-[#FFFFFF] border border-solid border-[#ccc] bg-[#fb641b] text-[14px] font-[600] rounded-[5px] h-[35px] mt-4'>
                         Reset Password
                     </button>
