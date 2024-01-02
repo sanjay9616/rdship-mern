@@ -17,7 +17,7 @@ import { FaRegistered } from "react-icons/fa";
 const Header = () => {
   const router = useRouter()
   return (
-    <section className="sticky top-0 w-full z-50 bg-white shadow-xl">
+    <section className="sticky top-0 w-full z-50 bg-white shadow-[0_3px_6px_rgb(0_0_0_/_16%)]">
       <div className='flex flex-row items-center bg-white pl-4 pt-2 pr-4'>
         <Link href={'/'}>Logo</Link>
         <div className='flex flex-row items-center justify-between w-1/3 border h-8 rounded ml-32'>
