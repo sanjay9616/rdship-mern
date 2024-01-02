@@ -1,4 +1,5 @@
-import React from 'react'
+"use client"
+import React, { useState } from 'react'
 import { IoMdAdd, IoMdRemove, IoIosStar } from "react-icons/io"
 import { BiSolidLike, BiSolidDislike } from "react-icons/bi";
 import { IoShareSocialSharp, IoCart } from "react-icons/io5";
@@ -6,8 +7,24 @@ import { MdLocationOn, MdFavorite } from "react-icons/md";
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 import Item from '@/components/Item';
+import RateProductsDialog from '@/components/RateProductsDialog';
+import DialogContent from '@mui/material/DialogContent';
+import { Button, Dialog } from '@mui/material';
+import AskQuestionsDialog from '@/components/AskQuestionsDialog';
 
 const page = () => {
+
+    const [isOpenRateDialog, setIsOpenRateDialog] = useState(false);
+    const [isOpenAskQuestionDialog, setIsOpenAskQuestionDialog] = useState(false);
+
+    const handleOpenCloseRateDialog = (isOpen: boolean) => {
+        setIsOpenRateDialog(isOpen);
+    };
+
+    const handleOpenCloseAskQuestionDialog = (isOpen: boolean) => {
+        setIsOpenAskQuestionDialog(isOpen);
+    };
+
     return (
         <section>
             <div className='flex m-2'>
@@ -122,9 +139,18 @@ const page = () => {
                         <div className='border border-solid border-[#c7c7c7] mt-4 p-2 rounded-[5px]'>
                             <div className='mb-4 flex items-center justify-between'>
                                 <div className='text-[16px] font-[600] text-[#212121]'>Reviews & Ratings</div>
-                                <button type='button' className='h-[30px] pl-[10px] pr-[10px] bg-[#fae0e1] text-[#d9232d] text-[12px] rounded-[5px] font-[600]'>
+                                <Button type='button' onClick={() => handleOpenCloseRateDialog(true)} className='h-[30px] pl-[10px] pr-[10px] bg-[#fae0e1] hover:bg-[#fae0e1] text-[#d9232d] text-[12px] rounded-[5px] font-[600]'>
                                     Rate Product
-                                </button>
+                                </Button>
+                                <Dialog
+                                    fullWidth={true}
+                                    maxWidth={'sm'}
+                                    open={isOpenRateDialog}
+                                    onClose={() => handleOpenCloseRateDialog(false)}>
+                                    <DialogContent>
+                                        <RateProductsDialog />
+                                    </DialogContent>
+                                </Dialog>
                             </div>
                             <div className='flex'>
                                 <div className='w-[50%] flex flex-col justify-between'>
@@ -247,7 +273,18 @@ const page = () => {
                         <div className='mt-2 p-2 border border-solid border-[#ccc] rounded-[4px]'>
                             <div className='flex items-center justify-between'>
                                 <div className='text-[16px] font-[600] text-[#212121] pt-2 pb-2'>Frequently Asked Questions</div>
-                                <button type='button' className='pl-2 pr-2 h-[30px] text-[12px] bg-[#fae0e1] text-[#d9232d] rounded-[4px] font-[600]'>Ask Now</button>
+                                <Button type='button' onClick={() => handleOpenCloseAskQuestionDialog(true)} className='pl-2 pr-2 h-[30px] text-[12px] bg-[#fae0e1] hover:bg-[#fae0e1] text-[#d9232d] rounded-[4px] font-[600]'>
+                                    Ask Now
+                                </Button>
+                                <Dialog
+                                    fullWidth={true}
+                                    maxWidth={'sm'}
+                                    open={isOpenAskQuestionDialog}
+                                    onClose={() => handleOpenCloseAskQuestionDialog(false)}>
+                                    <DialogContent>
+                                        <AskQuestionsDialog />
+                                    </DialogContent>
+                                </Dialog>
                             </div>
                             <div className='flex items-center justify-between mt-2 pt-2 border-t border-dashed border-[#c7c7c7]'>
                                 <div className='w-[83%]'>

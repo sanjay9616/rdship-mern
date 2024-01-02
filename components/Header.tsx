@@ -36,11 +36,11 @@ const Header = () => {
                   <MdAccountCircle className='h-[25px] w-[25px]' />
                   <div className='ml-2 text-[14px]'>My Profile</div>
                 </Link>
-                <Link href={'/login'} className='flex items-center text-[#333333db] font-[600] hover:text-[#2874f0] hover:bg-[#F2F2F2] w-full border-b border-solid border-[#ccc] p-[5px]'>
+                <Link href={'/'} className='flex items-center text-[#333333db] font-[600] hover:text-[#2874f0] hover:bg-[#F2F2F2] w-full border-b border-solid border-[#ccc] p-[5px]'>
                   <RiLogoutCircleFill className='h-[25px] w-[25px]' />
                   <div className='ml-2 text-[14px]' >Log Out</div>
                 </Link>
-                <Link href={'/'} className='flex items-center text-[#333333db] font-[600] hover:text-[#2874f0] hover:bg-[#F2F2F2] w-full border-b border-solid border-[#ccc] p-[5px]'>
+                <Link href={'/login'} className='flex items-center text-[#333333db] font-[600] hover:text-[#2874f0] hover:bg-[#F2F2F2] w-full border-b border-solid border-[#ccc] p-[5px]'>
                   <RiLoginCircleFill className='h-[25px] w-[25px]' />
                   <div className='ml-2 text-[14px]'>Log In</div>
                 </Link>

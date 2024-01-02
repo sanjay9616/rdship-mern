@@ -6,16 +6,16 @@ import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 
 const page = () => {
     const router = useRouter();
-    const [isPasswordVisible, setPasswordShow]= useState(false);
-    
+    const [isPasswordVisible, setPasswordShow] = useState(false);
+
     const gotToForgetPage = () => {
         router.push('/forget-password')
     }
-    function showPassword(value : boolean){
+    function showPassword(value: boolean) {
         setPasswordShow(value);
     }
     return (
-        <section className='flex items-center justify-center mt-2 w-full'>
+        <section className='flex-1 flex items-center justify-center mt-2 w-full bg-white'>
             <div className='w-[40%] bg-white border border-solid border-[#ccc] shadow-[0_3px_6px_rgb(0_0_0_/_16%)] rounded-[5px]'>
                 <div className='m-8 flex flex-col justify-center'>
                     <div className='font-[600]'>Log In</div>
@@ -35,7 +35,7 @@ const page = () => {
                                 </InputAdornment>
                             }
                         />
-                    <FormHelperText>{false ? 'Password Is Required' : ''}</FormHelperText>
+                        <FormHelperText>{false ? 'Password Is Required' : ''}</FormHelperText>
                     </FormControl>
                     <div className='flex ml-auto mt-0 cursor-pointer text-[blue]' onClick={() => gotToForgetPage()}>Forget password</div>
                     <button type='button' className='text-[#FFFFFF] border border-solid border-[#ccc] bg-[#fb641b] text-[14px] font-[600] rounded-[5px] h-[35px] mt-4'>
