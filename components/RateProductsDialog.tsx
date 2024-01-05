@@ -1,5 +1,5 @@
 import { Button, Rating } from '@mui/material'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 const RateProductsDialog = () => {
   const [rating, setRating] = useState(null)

@@ -1,109 +1,72 @@
-"use client"
-import { Button, FormControl, FormHelperText, InputLabel, OutlinedInput, TextField } from '@mui/material'
-import axios from 'axios'
-import { useForm, SubmitHandler } from 'react-hook-form'
+"use client";
+import { FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput } from '@mui/material'
+import Link from 'next/link';
 import React, { useState } from 'react'
+import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 
+const page = () => {
 
-interface form {
-    email: string,
-    mobile: string,
-    password: string,
-    reEnterPassword: string
-}
-function page() {
-    const { register, handleSubmit, watch, formState: { errors } } = useForm<form>()
+    const [isPasswordVisible, setPasswordShow] = useState(false);
+    const [isRePasswordVisible, setRePasswordShow] = useState(false);
 
-    const SubmitHandler = (data: any) => {
-        console.log(data)
-        signUpCallApi(data)
+    function showPassword(value: boolean) {
+        setPasswordShow(value);
     }
 
-    // function to call Api For SignUp
-    const signUpCallApi = async (request: form) => {
-        // if input is Not Valid don't Proceed further and refresh Component
-
-        let payload = { email: request.email, mobileNo: request.mobile, password: request.password };
-        let url = "";
-        try {
-            console.log("payload=", payload)
-            let response = await axios.post(url, payload);
-            console.log(response)
-        }
-        catch (err) {
-            console.error(err);
-        }
+    function showRePassword(value: boolean) {
+        setRePasswordShow(value);
     }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     return (
-        <section className="flex flex-col items-center justify-center bg-white w-full ">
-            <div className='mt-4 pb-2 bg-white'>
-                {/* Heading with bold Tag */}
-                <div>
-                    <b>Sign Up</b>
-                </div>
-                {/*  Input for Email and Mobile Number */}
-                <div className='flex flex-row mt-2'>
-                    <FormControl variant="outlined">
-                        <InputLabel htmlFor="signup-email" >Enter Email</InputLabel>
-                        <OutlinedInput {...register("email", {
-                            required: "Email Should be Required",
-                            pattern: { value: emailRegex, message: "Invalid Email Format" }
-                        })}
-                            id="signup-email"
-                            name='email'
-                            type='text'
-                            label="Enter Email"></OutlinedInput>
-                        <FormHelperText sx={{ color: 'red' }}>{errors.email ? errors.email.message : null}</FormHelperText>
+        <section className='flex-1 flex items-center justify-center w-full bg-white'>
+            <div className='w-[40%] bg-white border border-solid border-[#ccc] shadow-[0_3px_6px_rgb(0_0_0_/_16%)] rounded-[5px]'>
+                <div className='m-8 flex flex-col justify-center'>
+                    <div className='font-[600]'>Sign Up</div>
+                    <div className='flex items-center justify-between'>
+                        <FormControl sx={{ mt: 2, width: '49%' }} variant="outlined">
+                            <InputLabel>Enter Email</InputLabel>
+                            <OutlinedInput type='text' label="Enter Email" />
+                            <FormHelperText>{false ? 'Email Is Required' : ''}</FormHelperText>
+                        </FormControl>
+                        <FormControl sx={{ mt: 2, width: '49%' }} variant="outlined">
+                            <InputLabel>Enter Email</InputLabel>
+                            <OutlinedInput type='text' label="Enter Email" />
+                            <FormHelperText>{false ? 'Email Is Required' : ''}</FormHelperText>
+                        </FormControl>
+                    </div>
+                    <FormControl sx={{ mt: 1, width: '100%' }} variant="outlined">
+                        <InputLabel htmlFor="outlined-adornment-password">Enter Password</InputLabel>
+                        <OutlinedInput id="outlined-adornment-password" type={isPasswordVisible ? 'text' : 'password'} label="Enter Password" placeholder='Enter Password'
+                            endAdornment={
+                                <InputAdornment position="end">
+                                    <IconButton aria-label="toggle password visibility" edge="end" onClick={() => showPassword(!isPasswordVisible)}>
+                                        {isPasswordVisible ? <MdVisibility /> : <MdVisibilityOff />}
+                                    </IconButton>
+                                </InputAdornment>
+                            }
+                        />
+                        <FormHelperText>{false ? 'Password Is Required' : ''}</FormHelperText>
                     </FormControl>
-                    <FormControl>
-                        <InputLabel htmlFor="signup-mobile">Enter Mobile</InputLabel>
-                        <OutlinedInput
-                            {...register("mobile", { required: "Mobile Number is Required", pattern: { value: /^\d+$/, message: "Mobile Number Should contain only numeric value" } })}
-                            id="signup-mobile"
-                            name="mobile"
-                            type="text"
-                            label="Enter Mobile">
-                        </OutlinedInput>
-                        <FormHelperText sx={{ color: 'red' }}>{errors.mobile ? errors.mobile?.message : ''}</FormHelperText>
+                    <FormControl sx={{ mt: 1, width: '100%' }} variant="outlined">
+                        <InputLabel htmlFor="outlined-adornment-password">Re Enter Password</InputLabel>
+                        <OutlinedInput id="outlined-adornment-password" type={isRePasswordVisible ? 'text' : 'password'} label="Re Enter Password" placeholder='Re Enter Password'
+                            endAdornment={
+                                <InputAdornment position="end">
+                                    <IconButton aria-label="toggle password visibility" edge="end" onClick={() => showRePassword(!isRePasswordVisible)}>
+                                        {isRePasswordVisible ? <MdVisibility /> : <MdVisibilityOff />}
+                                    </IconButton>
+                                </InputAdornment>
+                            }
+                        />
+                        <FormHelperText>{false ? 'Password Is Required' : ''}</FormHelperText>
                     </FormControl>
-                </div>
-                {/*  Input for password and Recorrect-password */}
-                <div className='flex flex-col mt-2'>
-                    <FormControl variant="outlined">
-                        <InputLabel htmlFor="signup-password" >Enter Password</InputLabel>
-                        <OutlinedInput
-                            {...register("password", { required: "Password is Required", })}
-                            id="signup-password"
-                            name='password'
-                            type='text'
-                            label="Enter Password"></OutlinedInput>
-                        <FormHelperText sx={{ color: 'red' }}>{errors.password ? errors.password.message : ''}</FormHelperText>
-
-                    </FormControl>
-                    <FormControl className='mt-3'>
-                        <InputLabel htmlFor="signup-repassword">Re Enter Password</InputLabel>
-                        <OutlinedInput
-                            {...register("reEnterPassword", {
-                                required: true, validate: (data) => {
-                                    if (watch().password !== data) {
-                                        console.log("true ,", data)
-                                        return "Password Does not match"
-                                    }
-                                    return true;
-                                }
-                            })}
-                            id="signup-repassword"
-                            name="reEnterPassword"
-                            type="text"
-                            label="Re Enter Password"
-                        ></OutlinedInput>
-                        <FormHelperText sx={{ color: 'red' }}>{errors.reEnterPassword ? errors.reEnterPassword.message : ''}</FormHelperText>
-                    </FormControl>
-                    <FormControl className='mt-2'>
-                        <Button onClick={handleSubmit(SubmitHandler)} style={{ backgroundColor: 'blue', color: 'white' }} variant='contained'>Sign Up</Button>
-                    </FormControl>
+                    <div className='flex items-center'>
+                        <div className='font-[500]'>Don't have an account?</div>
+                        <Link href={'/login'} className='flex ml-4 mt-0 cursor-pointer text-[blue]'>Log In</Link>
+                    </div>
+                    <button type='button' className='text-[#FFFFFF] border border-solid border-[#ccc] bg-[#fb641b] text-[14px] font-[600] rounded-[5px] h-[35px] mt-4'>
+                        Submit
+                    </button>
                 </div>
             </div>
         </section>
